@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.study.repo.StudyRepository">
+
+    <sql id="ssss">
+        SELECT *
+        FROM aaaaa
+        WHERE 1 = 1
+    </sql>
+
+    <!--    // DB 연결 확인 샘플 Mapper-->
+    <select id="selectStudyInfo" parameterType="StudyReqVO" resultType="StudyResVO">
+        SELECT
+            A.stdy_id
+            , A.stdy_nm
+            , A.stdy_con
+            , A.stdy_st_dt
+            , A.stdy_en_dt
+            , A.stdy_st
+            , A.stdy_cat_id
+            , A.del_yn
+            , A.rgsn_user_id
+            , A.rgsn_ts
+            , A.amnn_user_id
+            , A.amnn_ts
+        FROM stdy_info_m A
+
+        LEFT JOIN
+
+        <if test="searchCon != null and !searchCon.equals('')">
+            /* 스터디 태그 목록 */
+            INNER JOIN (
+                SELECT stdy_id
+                FROM STDY_TAG_L
+                WHERE 1 = 1
+                AND stdy_tag_con LIKE '%' || #{searchCon} || '%'
+                GROUP BY stdy_id
+            )  B ON B.stdy_id = A.
+        </if>
+
+        WHERE 1 = 1
+
+        <if test="stdyCatId != null and !stdyCatId.equals('')">
+            AND A.stdy_cat_id = #{stdyCatId}
+        </if>
+
+        <if test="searchCon != null and !searchCon.equals('')">
+            AND A.stdy_nm LIKE '%' || #{searchCon} || '%'
+        </if>
+
+        <if test="orderType != null and !orderType.equals('')">
+            <choose>
+                <when test='orderType.equals("asc")'>
+                    ORDER BY A.rgsn_ts DESC
+                </when>
+                <when test='orderType.equals("view")'>
+                    ORDER BY A.CONSONANTS ASC
+                </when>
+            </choose>
+        </if>
+
+
+    </select>
+
+</mapper>

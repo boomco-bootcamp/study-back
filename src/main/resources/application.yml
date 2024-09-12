@@ -1,0 +1,33 @@
+#Server Port
+server:
+  port: 8080
+
+---
+
+# USER
+spring:
+  security:
+    user:
+      name: user
+      password: 123
+      roles: USER
+
+---
+
+# DB
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://192.168.0.83:5432/postgres
+    username: postgres
+    password: boomco1004
+    hikari:
+      schema: study
+
+# Mybatis
+mybatis:
+  mapper-locations: classpath:database/mapper/**/*Mapper.xml
+  type-aliases-package: com.lecture.study.biz.service
+  configuration:
+    map-underscore-to-camel-case: true
+    jdbc-type-for-null: varchar
