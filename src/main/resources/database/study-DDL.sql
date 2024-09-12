@@ -491,3 +491,29 @@ COMMENT ON COLUMN study.STDY_COM_VIEWS_L.STDY_COM_VIEWS_ID IS '스터디 커뮤�
 COMMENT ON COLUMN study.STDY_COM_VIEWS_L.STDY_COMT_ID IS '스터디 커뮤니티 ID';
 COMMENT ON COLUMN study.STDY_COM_VIEWS_L.RGSN_USER_ID IS '등록 사용자';
 COMMENT ON COLUMN study.STDY_COM_VIEWS_L.RGSN_TS IS '등록 일시';
+
+
+
+-- 스터디 커뮤니티 방문자 목록
+CREATE TABLE study.STDY_VIEWS_L   (
+                                          STDY_VIEWS_ID varchar(100) NOT NULL, -- 스터디 커뮤니티 방문자 ID
+                                          STDY_ID      varchar(100) NOT NULL, -- 스터디 커뮤니티 ID
+                                          RGSN_USER_ID      varchar(50)  NULL,     -- 등록 사용자
+                                          RGSN_TS           TIMESTAMP    NULL      -- 등록 일시
+);
+
+-- 스터디 커뮤니티 방문자 목록
+ALTER TABLE study.STDY_VIEWS_L
+    ADD CONSTRAINT PK_STDY_VIEWS_L   -- 스터디 커뮤니티 방문자 목록 기본키
+        PRIMARY KEY (
+                     STDY_COM_ID -- 스터디 커뮤니티 방문자 ID
+            );
+
+
+
+
+COMMENT ON TABLE  study.STDY_VIEWS_L IS '스터디 방문자 목록';
+COMMENT ON COLUMN study.STDY_VIEWS_L.STDY_COM_VIEWS_ID IS '스터디 방문자 ID';
+COMMENT ON COLUMN study.STDY_VIEWS_L.STDY_COMT_ID IS '스터디 ID';
+COMMENT ON COLUMN study.STDY_VIEWS_L.RGSN_USER_ID IS '등록 사용자';
+COMMENT ON COLUMN study.STDY_VIEWS_L.RGSN_TS IS '등록 일시';
