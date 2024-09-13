@@ -1,5 +1,6 @@
 package com.lecture.study.biz.service.study;
 
+import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
 import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
@@ -18,7 +19,7 @@ public interface StudyService {
      * @return
      * @throws Exception
      */
-    List<StudyResVO> searchStudyInfoList(StudyReqVO reqVO) throws Exception;
+    PagingListVO<StudyResVO> searchStudyInfoList(StudyReqVO reqVO) throws Exception;
 
     /**
      * 스터디 상세 정보 조회

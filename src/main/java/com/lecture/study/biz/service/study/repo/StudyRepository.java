@@ -19,6 +19,8 @@ public interface StudyRepository {
     // 스터디 정보 목록조회
     List<StudyResVO> selectStudyInfoList(StudyReqVO reqVO);
 
+    int selectStudyInfoTotal(StudyReqVO reqVO);
+
     // 스터디 상세 정보 조회
     StudyResVO selectStudyInfo(@Param("stdyId")String stdyId);
 

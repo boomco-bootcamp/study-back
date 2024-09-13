@@ -1,6 +1,7 @@
 package com.lecture.study.biz.service.study.vo;
 
 
+import com.lecture.study.biz.service.comon.vo.PageVO;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
@@ -9,7 +10,7 @@ import org.apache.ibatis.type.Alias;
  */
 @Data
 @Alias("StudyReqVO")
-public class StudyReqVO {
+public class StudyReqVO extends PageVO {
 
     /*
      * 조회 검색 조건

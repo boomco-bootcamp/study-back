@@ -85,7 +85,7 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:8080/api/study/list?searchCon=같이&stdyCatId=e85b0f7f-ffeb-41a1-b02c-02a84b396194&orderType=desc",
+											"raw": "http://localhost:8080/api/study/list?searchCon=같이&page=1&record=10",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -103,11 +103,21 @@
 												},
 												{
 													"key": "stdyCatId",
-													"value": "e85b0f7f-ffeb-41a1-b02c-02a84b396194"
+													"value": "e85b0f7f-ffeb-41a1-b02c-02a84b396194",
+													"disabled": true
 												},
 												{
 													"key": "orderType",
-													"value": "desc"
+													"value": "desc",
+													"disabled": true
+												},
+												{
+													"key": "page",
+													"value": "1"
+												},
+												{
+													"key": "record",
+													"value": "10"
 												}
 											]
 										}
@@ -173,7 +183,7 @@
 									]
 								},
 								{
-									"name": "스터디 상세 목록 조회",
+									"name": "스터디 상세 조회",
 									"protocolProfileBehavior": {
 										"disableBodyPruning": true
 									},
@@ -190,7 +200,7 @@
 											}
 										},
 										"url": {
-											"raw": "http://localhost:8080/api/study/list?stdyId=51aecc0b-653e-4fe0-9890-3d179b54d63d",
+											"raw": "http://localhost:8080/api/study/detail?stdyId=3356c4dc-f05b-4d96-88ef-7aae938e15e9",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -199,12 +209,12 @@
 											"path": [
 												"api",
 												"study",
-												"list"
+												"detail"
 											],
 											"query": [
 												{
 													"key": "stdyId",
-													"value": "51aecc0b-653e-4fe0-9890-3d179b54d63d"
+													"value": "3356c4dc-f05b-4d96-88ef-7aae938e15e9"
 												}
 											]
 										}
@@ -225,7 +235,7 @@
 													}
 												},
 												"url": {
-													"raw": "http://localhost:8080/api/study/list?stdyId=51aecc0b-653e-4fe0-9890-3d179b54d63d",
+													"raw": "http://localhost:8080/api/study/detail?stdyId=3356c4dc-f05b-4d96-88ef-7aae938e15e9",
 													"protocol": "http",
 													"host": [
 														"localhost"
@@ -234,12 +244,12 @@
 													"path": [
 														"api",
 														"study",
-														"list"
+														"detail"
 													],
 													"query": [
 														{
 															"key": "stdyId",
-															"value": "51aecc0b-653e-4fe0-9890-3d179b54d63d",
+															"value": "3356c4dc-f05b-4d96-88ef-7aae938e15e9",
 															"description": "스터디 ID"
 														}
 													]

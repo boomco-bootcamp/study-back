@@ -2,6 +2,7 @@ package com.lecture.study.biz.service.study;
 
 import com.lecture.study.app.constant.StudyStatusCode;
 import com.lecture.study.app.utils.StringUtil;
+import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import com.lecture.study.biz.service.study.repo.StudyRepository;
 import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
@@ -31,10 +32,12 @@ public class StudyServiceImpl implements StudyService {
      * @throws Exception
      */
     @Override
-    public List<StudyResVO> searchStudyInfoList(StudyReqVO reqVO) throws Exception {
+    public PagingListVO<StudyResVO> searchStudyInfoList(StudyReqVO reqVO) throws Exception {
         try {
             // 스터디 조회
             List<StudyResVO> resultList = studyRepository.selectStudyInfoList(reqVO);
+            // 스터디 토탈 카운트 조회
+            int totalCnt = studyRepository.selectStudyInfoTotal(reqVO);
 
             // 스터디 테그 조회
             for(StudyResVO x : resultList){
@@ -42,7 +45,8 @@ public class StudyServiceImpl implements StudyService {
                 x.setTagList(tagList);
             }
 
-            return resultList;
+            return new PagingListVO(reqVO, resultList, totalCnt);
+
         } catch (Exception e) {
             e.printStackTrace();
             throw e;

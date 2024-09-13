@@ -1,5 +1,6 @@
 package com.lecture.study.biz.controller.study;
 
+import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import com.lecture.study.biz.service.study.StudyService;
 import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
@@ -31,7 +32,7 @@ public class StudyController {
     @GetMapping("/list")
     public ResponseEntity searchStudyInfoList(StudyReqVO reqVO) {
         try {
-            List<StudyResVO> resultList = studyService.searchStudyInfoList(reqVO);
+            PagingListVO<StudyResVO> resultList = studyService.searchStudyInfoList(reqVO);
             return ResponseEntity.ok().body(resultList);
         } catch (Exception e) {
             log.error(e.getMessage());
