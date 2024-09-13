@@ -11,6 +11,9 @@ import org.apache.ibatis.type.Alias;
 @Alias("StudyReqVO")
 public class StudyReqVO {
 
+    /*
+     * 조회 검색 조건
+     */
     // 검색어(강의 명, 테그)
     private String searchCon;
 
@@ -19,6 +22,12 @@ public class StudyReqVO {
 
     // 정렬 조건
     private String orderType;
+
+    /*
+     * 상세 검색 조건
+     */
+    // 스터디 ID
+    private String stdyId;
 
     
 }

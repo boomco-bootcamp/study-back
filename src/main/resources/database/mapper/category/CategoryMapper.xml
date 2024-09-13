@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.category.repo.CategoryRepository">
+
+    <!--    스터디 카테고리 전체 목록 조회   -->
+    <select id="selectAllCategoryList" resultType="CategoryVO">
+        SELECT
+            stdy_cat_id
+            , stdy_cat_nm
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+
+        FROM stdy_cat_info_m
+
+        ORDER BY stdy_cat_nm
+    </select>
+
+    <!--    스터디 카테고리 작성 -->
+    <insert id="insertCategoryInfo" parameterType="CategoryVO">
+        insert into stdy_cat_info_m
+        (
+            stdy_cat_id
+            , stdy_cat_nm
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        values
+        (
+            #{stdyCatId}
+            , #{stdyCatNm}
+            , 'N'
+            , #{rgsnUserId}
+            , CURRENT_TIMESTAMP
+            , #{amnnUserId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+</mapper>

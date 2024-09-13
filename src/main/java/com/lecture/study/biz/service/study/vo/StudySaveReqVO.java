@@ -1,7 +1,12 @@
 package com.lecture.study.biz.service.study.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Alias("StudySaveReqVO")
@@ -18,9 +23,11 @@ public class StudySaveReqVO {
 
     // 스터디 시작일
     private String stdyStDt;
+    private Timestamp stdyStDtTm;
 
     // 스터디 종료일
     private String stdyEnDt;
+    private Timestamp stdyEnDtTm;
 
     // 스터디 상태
     private String stdySt;
@@ -28,4 +35,13 @@ public class StudySaveReqVO {
     // 스터디 카테고리 ID
     private String stdyCatId;
 
+    // 스터티 태그 리스트
+    private List<StudyTagVO> tagList;
+
+    // 등록 사용자
+    private String rgsnUserId;
+
+    // 수정 사용자
+    private String amnnUserId;
 }
+

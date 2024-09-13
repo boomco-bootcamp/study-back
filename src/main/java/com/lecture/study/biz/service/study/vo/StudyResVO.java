@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * 스터디 조회 관련 Res VO
@@ -32,20 +33,35 @@ public class StudyResVO {
 
     // 스터디 카테고리 ID
     private String stdyCatId;
+    // 스터디 카테고리 명
+    private String stdyCatNm;
 
     // 삭제 여부
     private String delYn;
 
     // 등록 사용자
     private String rgsnUserId;
+    // 등록 사용자 명
+    private String rgsnUserNm;
 
     // 등록 일시
     private Timestamp rgsnTs;
 
     // 수정 사용자
     private String amnnUserId;
+    // 수정 사용자 명
+    private String amnnUserNm;
 
     // 수정 일시
     private Timestamp amnnTs;
+
+    // 태그 리스트
+    private List<StudyTagVO> tagList;
+
+    // 총 방문자 수
+    private int stdyViewsCnt;
+
+    // 총 댓글 수
+    private int stdyCommentCnt;
 
 }
