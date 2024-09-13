@@ -1,5 +1,7 @@
 package com.lecture.study.biz.service.study.vo;
 
+import com.lecture.study.biz.service.member.vo.MemberResVO;
+import com.lecture.study.biz.service.tag.vo.TagVO;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
@@ -15,6 +17,11 @@ public class StudyResVO {
 
     // 스터디 ID
     private String stdyId;
+
+    // 이전 스터디 ID
+    private String previousStdyId;
+    // 다음 스터디 ID
+    private String nextStdyId;
 
     // 스터티 명
     private String stdyNm;
@@ -55,8 +62,11 @@ public class StudyResVO {
     // 수정 일시
     private Timestamp amnnTs;
 
-    // 태그 리스트
-    private List<StudyTagVO> tagList;
+    // 태그 목록
+    private List<TagVO> tagList;
+
+    // 참여인원 목록
+    private List<MemberResVO> memberList;
 
     // 총 방문자 수
     private int stdyViewsCnt;

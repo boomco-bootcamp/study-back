@@ -1,4 +1,4 @@
-package com.lecture.study.biz.service.study.vo;
+package com.lecture.study.biz.service.tag.vo;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
@@ -8,8 +8,8 @@ import org.apache.ibatis.type.Alias;
  * STDY_TAG_L
  */
 @Data
-@Alias("StudyTagVO")
-public class StudyTagVO {
+@Alias("TagVO")
+public class TagVO {
 
 	// 스터디 태그 ID
 	private String stdyTagId;

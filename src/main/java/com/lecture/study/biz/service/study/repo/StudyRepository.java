@@ -3,7 +3,7 @@ package com.lecture.study.biz.service.study.repo;
 import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
 import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
-import com.lecture.study.biz.service.study.vo.StudyTagVO;
+import com.lecture.study.biz.service.tag.vo.TagVO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -32,23 +32,4 @@ public interface StudyRepository {
 
     // 스터디 정보 삭제
     int deleteStudyInfo(StudySaveReqVO saveReqVO);
-
-
-    /**************************************************
-     * 스터디 태그
-     **************************************************/
-
-    // 스터디 태그 목록 조회
-    List<StudyTagVO> selectStudyTagList(@Param("stdyId")String stdyId);
-
-    // 스터디 태그 저장
-    int insertStudyTag(StudyTagVO studyTagVO);
-
-    // 스터디 태그 삭제
-    int deleteStudyTag(StudyTagVO studyTagVO);
-
-
-
-
-
 }

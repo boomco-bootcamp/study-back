@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.member.repo.MemberRepository">
+
+    <!--    스터티 참여 인원 조회    -->
+    <select id="selectMemberList" parameterType="string" resultType="MemberResVO">
+        SELECT
+            A.stdy_member_id
+            , A.stdy_id
+            , A.user_id
+            , B.user_nm
+            , A.stdy_member_yn
+            , A.del_yn
+            , A.rgsn_user_id
+            , A.rgsn_ts
+            , A.amnn_user_id
+            , A.amnn_ts
+
+        FROM stdy_member_r A
+
+        /* 스터디 유저 계정 정보 */
+        INNER JOIN stdy_user_info_m B ON B.user_id = A.user_id AND B.del_yn = 'N'
+
+        WHERE 1 = 1 AND A.del_yn = 'N'
+            <if test="stdyId != null and !stdyId.equals('')">
+                AND A.stdy_id = #{stdyId}
+            </if>
+    </select>
+
+</mapper>

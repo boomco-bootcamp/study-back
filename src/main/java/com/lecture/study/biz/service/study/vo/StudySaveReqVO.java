@@ -1,7 +1,6 @@
 package com.lecture.study.biz.service.study.vo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.lecture.study.biz.service.tag.vo.TagVO;
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
@@ -36,7 +35,7 @@ public class StudySaveReqVO {
     private String stdyCatId;
 
     // 스터티 태그 리스트
-    private List<StudyTagVO> tagList;
+    private List<TagVO> tagList;
 
     // 등록 사용자
     private String rgsnUserId;

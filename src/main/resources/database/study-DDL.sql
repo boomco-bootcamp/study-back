@@ -517,3 +517,36 @@ COMMENT ON COLUMN study.STDY_VIEWS_L.STDY_VIEWS_ID IS '스터디 방문자 ID';
 COMMENT ON COLUMN study.STDY_VIEWS_L.STDY_ID IS '스터디 ID';
 COMMENT ON COLUMN study.STDY_VIEWS_L.RGSN_USER_ID IS '등록 사용자';
 COMMENT ON COLUMN study.STDY_VIEWS_L.RGSN_TS IS '등록 일시';
+
+
+
+-- 스터디 커뮤니티 댓글 목록
+CREATE TABLE MY_SCHEMA.STDY_COM_COMMENT_L    (
+                                                 STDY_COM_COMMENT_ID             VARCHAR(100) NOT NULL, -- 스터디 커뮤니티 댓글 ID
+                                                 STDY_COM_ID                     VARCHAR(100) NOT NULL, -- 스터디 커뮤니티 ID
+                                                 STDY_COM_COMMENT_CON            VARCHAR(500) NULL,     -- 스터티 커뮤니티 댓글 내용
+                                                 STDY_PARENT_COM_COMMENT_ID      VARCHAR(100) NULL,     -- 스터디 커뮤니티 부모 댓글 ID
+                                                 DEL_YN                          VARCHAR(1)   NULL,     -- 삭제 여부
+                                                 RGSN_USER_ID                    VARCHAR(50)  NULL,     -- 등록 사용자
+                                                 RGSN_TS                         TIMESTAMP    NULL,     -- 등록 일시
+                                                 AMNN_USER_ID                    VARCHAR(50)  NULL,     -- 수정 사용자
+                                                 AMNN_TS                         TIMESTAMP    NULL      -- 수정 일시
+);
+
+-- 스터디 커뮤니티 댓글 목록
+ALTER TABLE MY_SCHEMA.STDY_COM_COMMENT_L
+    ADD CONSTRAINT PK_STDY_COM_COMMENT_L    -- 스터디 커뮤니티 댓글 목록 기본키
+        PRIMARY KEY (
+                     STDY_COM_COMMENT_ID -- 스터디 커뮤니티 댓글 ID
+            );
+
+COMMENT ON TABLE  study.STDY_COM_COMMENT_L IS '스터디 커뮤니티 댓글 목록';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.STDY_COM_COMMENT_ID IS '스터디 커뮤니티 댓글 ID';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.STDY_COM_ID IS '스터디 커뮤니티 ID';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.STDY_COM_COMMENT_CON IS '스터티 커뮤니티 댓글 내용';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.STDY_PARENT_COM_COMMENT_ID IS '스터디 커뮤니티 부모 댓글 ID';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.DEL_YN IS '삭제 여부';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.RGSN_USER_ID IS '등록 사용자';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.RGSN_TS IS '등록 일시';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.AMNN_USER_ID IS '수정 사용자';
+COMMENT ON COLUMN study.STDY_COM_COMMENT_L.AMNN_TS IS '수정 일시';

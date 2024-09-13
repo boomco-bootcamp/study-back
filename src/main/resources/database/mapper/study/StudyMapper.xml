@@ -4,7 +4,6 @@
 
     <!--    스터디 정보 목록 조회 -->
     <select id="selectStudyInfoList" parameterType="StudyReqVO" resultType="StudyResVO">
-
         SELECT
             A.stdy_id
             , A.stdy_nm
@@ -124,6 +123,19 @@
     <select id="selectStudyInfo" parameterType="string" resultType="StudyResVO">
         SELECT
             A.stdy_id
+            /* 이전 글 ID - 정렬 조건 : 글 등록 순 */
+            , (
+                SELECT previous_stdy_id
+                FROM (SELECT stdy_id, LAG(stdy_id) OVER (ORDER BY rgsn_ts DESC) AS previous_stdy_id FROM stdy_info_m)
+                WHERE stdy_id = A.stdy_id
+            ) AS previous_stdy_id
+            /* 다음 글 ID - 정렬 조건 : 글 등록 순 */
+            , (
+                SELECT next_stdy_id
+                FROM (SELECT stdy_id, LEAD(stdy_id) OVER (ORDER BY rgsn_ts DESC) AS next_stdy_id FROM stdy_info_m)
+                WHERE stdy_id = A.stdy_id
+            ) AS next_stdy_id
+
             , A.stdy_nm
             , A.stdy_con
             , TO_CHAR(A.stdy_st_dt, 'YYYY-MM-DD HH24:MI') AS stdy_st_dt
@@ -170,7 +182,7 @@
 
     <!--    스터디 정보 작성   -->
     <insert id="insertStudyInfo" parameterType="StudySaveReqVO">
-        insert into stdy_info_m
+        INSERT INTO stdy_info_m
         (
             stdy_id
             , stdy_nm
@@ -185,7 +197,7 @@
             , amnn_user_id
             , amnn_ts
         )
-        values
+        VALUES
         (
             #{stdyId}
             , #{stdyNm}
@@ -228,64 +240,6 @@
           , amnn_ts = CURRENT_TIMESTAMP
         WHERE 1 = 1
           AND stdy_id = #{stdyId}
-    </update>
-
-    <!--    스터디 태그 목록 조회    -->
-    <select id="selectStudyTagList" parameterType="string" resultType="StudyTagVO">
-        SELECT
-            stdy_tag_id
-            , stdy_id
-            , stdy_tag_con
-            , del_yn
-            , rgsn_user_id
-            , rgsn_ts
-            , amnn_user_id
-            , amnn_ts
-
-        FROM stdy_tag_l
-
-        WHERE 1 = 1 AND stdy_id = #{stdyId}
-    </select>
-
-    <!--    스터디 태그 저장   -->
-    <insert id="insertStudyTag" parameterType="StudyTagVO">
-        insert into stdy_tag_l
-        (
-            stdy_tag_id
-            , stdy_id
-            , stdy_tag_con
-            , del_yn
-            , rgsn_user_id
-            , rgsn_ts
-            , amnn_user_id
-            , amnn_ts
-        )
-        values
-        (
-            #{stdyTagId}
-            , #{stdyId}
-            , #{stdyTagCon}
-            , 'N'
-            , #{rgsnUserId}
-            , CURRENT_TIMESTAMP
-            , #{amnnUserId}
-            , CURRENT_TIMESTAMP
-        )
-    </insert>
-
-    <!--    스터디 태그 삭제   -->
-    <update id="deleteStudyTag" parameterType="StudyTagVO">
-        UPDATE
-            stdy_tag_l
-        SET
-            del_yn = 'Y'
-            , amnn_user_id = #{amnnUserId}
-            , amnn_ts = CURRENT_TIMESTAMP
-        WHERE 1 = 1
-            AND stdy_id = #{stdyId}
-            <if test="stdyTagId != null and !stdyTagId.equals('')">
-                AND stdy_tag_id = #{stdyTagId}
-            </if>
     </update>
 
 </mapper>

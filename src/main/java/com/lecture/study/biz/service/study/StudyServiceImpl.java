@@ -3,11 +3,15 @@ package com.lecture.study.biz.service.study;
 import com.lecture.study.app.constant.StudyStatusCode;
 import com.lecture.study.app.utils.StringUtil;
 import com.lecture.study.biz.service.comon.vo.PagingListVO;
+import com.lecture.study.biz.service.member.MemberService;
+import com.lecture.study.biz.service.member.vo.MemberResVO;
 import com.lecture.study.biz.service.study.repo.StudyRepository;
 import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
 import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
-import com.lecture.study.biz.service.study.vo.StudyTagVO;
+import com.lecture.study.biz.service.tag.TagService;
+import com.lecture.study.biz.service.tag.repo.TagRepository;
+import com.lecture.study.biz.service.tag.vo.TagVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -15,14 +19,21 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * 스터디 관련 서비스 Impl
+ */
 @Slf4j
 @Service("StudyService")
 public class StudyServiceImpl implements StudyService {
 
     private final StudyRepository studyRepository;
+    private final TagService tagService;
+    private final MemberService memberService;
 
-    public StudyServiceImpl(StudyRepository studyRepository) {
+    public StudyServiceImpl(StudyRepository studyRepository, TagService tagService, MemberService memberService) {
         this.studyRepository = studyRepository;
+        this.tagService = tagService;
+        this.memberService = memberService;
     }
 
     /**
@@ -41,7 +52,7 @@ public class StudyServiceImpl implements StudyService {
 
             // 스터디 테그 조회
             for(StudyResVO x : resultList){
-                List<StudyTagVO> tagList = studyRepository.selectStudyTagList(x.getStdyId());
+                List<TagVO> tagList = tagService.searchTagList(x.getStdyId());
                 x.setTagList(tagList);
             }
 
@@ -69,10 +80,15 @@ public class StudyServiceImpl implements StudyService {
             // 스터디 상세 정보 조회
             StudyResVO result = studyRepository.selectStudyInfo(reqVO.getStdyId());
 
-            // 태그 리스트 조회
+
             if(result != null) {
-                List<StudyTagVO> tagList = studyRepository.selectStudyTagList(result.getStdyId());
+                // 태그 리스트 조회
+                List<TagVO> tagList = tagService.searchTagList(result.getStdyId());
                 result.setTagList(tagList);
+
+                // 참여 학생 조회
+                List<MemberResVO> memberList = memberService.searchMemberList(reqVO.getStdyId());
+                result.setMemberList(memberList);
             }
 
             return result;
@@ -106,11 +122,11 @@ public class StudyServiceImpl implements StudyService {
 
                 // 태그 리스트가 존재하는 경우, 태그 저장
                 if(saveReqVO.getTagList() != null && saveReqVO.getTagList().size() > 0) {
-                    for (StudyTagVO tag : saveReqVO.getTagList()) {
+                    for (TagVO tag : saveReqVO.getTagList()) {
                         tag.setStdyTagId(UUID.randomUUID().toString());
                         tag.setStdyId(stdyId);
                         tag.setDelYn("N");
-                        studyRepository.insertStudyTag(tag);
+                        tagService.insertTag(tag);
                     }
                 }
 
@@ -122,17 +138,17 @@ public class StudyServiceImpl implements StudyService {
                 result = studyRepository.updateStudyInfo(saveReqVO);
 
                 // 기존에 있는 태그를 전부 삭제처리 하고,
-                StudyTagVO studyTagVO = new StudyTagVO();
-                studyTagVO.setStdyId(saveReqVO.getStdyId());
-                studyRepository.deleteStudyTag(studyTagVO);
+                TagVO tagVO = new TagVO();
+                tagVO.setStdyId(saveReqVO.getStdyId());
+                tagService.deleteTag(tagVO);
 
                 // 새 태그 리스트가 존재하는 경우, 태그 저장
                 if(saveReqVO.getTagList() != null && saveReqVO.getTagList().size() > 0) {
-                    for (StudyTagVO tag : saveReqVO.getTagList()) {
+                    for (TagVO tag : saveReqVO.getTagList()) {
                         tag.setStdyTagId(UUID.randomUUID().toString());
                         tag.setStdyId(saveReqVO.getStdyId());
                         tag.setDelYn("N");
-                        studyRepository.insertStudyTag(tag);
+                        tagService.insertTag(tag);
                     }
                 }
             }
@@ -157,9 +173,9 @@ public class StudyServiceImpl implements StudyService {
             int result = studyRepository.deleteStudyInfo(saveReqVO);
 
             // 태그 전체 삭제
-            StudyTagVO studyTagVO = new StudyTagVO();
-            studyTagVO.setStdyId(saveReqVO.getStdyId());
-            studyRepository.deleteStudyTag(studyTagVO);
+            TagVO tagVO = new TagVO();
+            tagVO.setStdyId(saveReqVO.getStdyId());
+            tagService.deleteTag(tagVO);
 
             return result;
         } catch (Exception e) {

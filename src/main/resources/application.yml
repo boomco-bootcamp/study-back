@@ -1,9 +1,13 @@
 #Server Port
 server:
   port: 8080
+
+#log level
 logging:
   level:
-    org.apache.ibatis: DEBUG
+    org.springframework : info
+    org.apache.ibatis: debug
+
 ---
 
 # USER
