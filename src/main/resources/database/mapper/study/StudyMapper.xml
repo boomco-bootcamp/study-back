@@ -82,10 +82,10 @@
                     ORDER BY A.rgsn_ts DESC
                 </when>
                 <when test='orderType.equals("view")'>
-                    ORDER BY coalesce(C.stdy_views_cnt, 0) ASC
+                    ORDER BY coalesce(C.stdy_views_cnt, 0) DESC
                 </when>
                 <when test='orderType.equals("reply")'>
-                    ORDER BY coalesce(D.stdy_comment_cnt, 0) ASC
+                    ORDER BY coalesce(D.stdy_comment_cnt, 0) DESC
                 </when>
             </choose>
         </if>

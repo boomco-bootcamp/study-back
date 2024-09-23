@@ -34,18 +34,18 @@
     <insert id="insertStudyTag" parameterType="TagVO">
         insert into stdy_tag_l
         (
-          stdy_tag_id
-        , stdy_id
-        , stdy_tag_con
-        , del_yn
-        , rgsn_user_id
-        , rgsn_ts
-        , amnn_user_id
-        , amnn_ts
+            stdy_tag_id
+            , stdy_id
+            , stdy_tag_con
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
         )
         values
-            (
-              #{stdyTagId}
+        (
+            #{stdyTagId}
             , #{stdyId}
             , #{stdyTagCon}
             , 'N'
@@ -53,22 +53,22 @@
             , CURRENT_TIMESTAMP
             , #{amnnUserId}
             , CURRENT_TIMESTAMP
-            )
+        )
     </insert>
 
     <!--    스터디 태그 삭제   -->
     <update id="deleteStudyTag" parameterType="TagVO">
         UPDATE
-        stdy_tag_l
+            stdy_tag_l
         SET
-        del_yn = 'Y'
-        , amnn_user_id = #{amnnUserId}
-        , amnn_ts = CURRENT_TIMESTAMP
+            del_yn = 'Y'
+            , amnn_user_id = #{amnnUserId}
+            , amnn_ts = CURRENT_TIMESTAMP
         WHERE 1 = 1
-        AND stdy_id = #{stdyId}
-        <if test="stdyTagId != null and !stdyTagId.equals('')">
-            AND stdy_tag_id = #{stdyTagId}
-        </if>
+            AND stdy_id = #{stdyId}
+            <if test="stdyTagId != null and !stdyTagId.equals('')">
+                AND stdy_tag_id = #{stdyTagId}
+            </if>
     </update>
 
 </mapper>
