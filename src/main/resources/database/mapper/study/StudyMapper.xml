@@ -25,6 +25,7 @@
 
             , coalesce(C.stdy_views_cnt, 0) AS stdy_views_cnt
             , coalesce(D.stdy_comment_cnt, 0) AS stdy_comment_cnt
+            , coalesce(E.stdy_like_cnt, 0) AS stdy_like_cnt
 
         FROM stdy_info_m A
 
@@ -40,6 +41,11 @@
         LEFT JOIN (
             SELECT stdy_id, COUNT(0) AS stdy_comment_cnt FROM stdy_comment_l GROUP BY stdy_id
         ) D ON D.stdy_id = A.stdy_id
+
+        /* 스터디 관심 목록 ->  좋아요 수*/
+        LEFT JOIN (
+        SELECT stdy_id, COUNT(0) AS stdy_like_cnt FROM stdy_like_l GROUP BY stdy_id
+        ) E ON E.stdy_id = A.stdy_id
 
         <if test="searchCon != null and !searchCon.equals('')">
             /* 스터디 태그 목록 */
@@ -155,6 +161,7 @@
 
             , coalesce(C.stdy_views_cnt, 0) AS stdy_views_cnt
             , coalesce(D.stdy_comment_cnt, 0) AS stdy_comment_cnt
+            , coalesce(E.stdy_like_cnt, 0) AS stdy_like_cnt
 
         FROM stdy_info_m A
 
@@ -170,6 +177,11 @@
         LEFT JOIN (
             SELECT stdy_id, COUNT(0) AS stdy_comment_cnt FROM stdy_comment_l GROUP BY stdy_id
         ) D ON D.stdy_id = A.stdy_id
+
+        /* 스터디 관심 목록 ->  좋아요 수*/
+        LEFT JOIN (
+            SELECT stdy_id, COUNT(0) AS stdy_like_cnt FROM stdy_like_l GROUP BY stdy_id
+        ) E ON E.stdy_id = A.stdy_id
 
         /* 등록/수정 사용자 정보 */
         LEFT JOIN stdy_user_info_m RGSN ON RGSN.user_id = A.rgsn_user_id
