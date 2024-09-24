@@ -8,6 +8,8 @@ import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -59,8 +61,11 @@ public class CommunityController {
      * @return
      */
     @PostMapping("/save")
-    public ResponseEntity saveStudyComInfo(@RequestBody StudyComSaveReqVO saveReqVO) {
+    public ResponseEntity saveStudyComInfo(@RequestBody StudyComSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = communityService.saveStudyComInfo(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -75,8 +80,10 @@ public class CommunityController {
      * @return
      */
     @PostMapping("delete")
-    public ResponseEntity deleteStudyComInfo(@RequestBody StudyComSaveReqVO saveReqVO) {
+    public ResponseEntity deleteStudyComInfo(@RequestBody StudyComSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = communityService.deleteStudyComInfo(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {

@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -62,8 +64,11 @@ public class StudyController {
      * @return
      */
     @PostMapping("/save")
-    public ResponseEntity saveStudyInfo(@RequestBody StudySaveReqVO saveReqVO) {
+    public ResponseEntity saveStudyInfo(@RequestBody StudySaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = studyService.saveStudyInfo(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -78,8 +83,11 @@ public class StudyController {
      * @return
      */
     @PostMapping("/delete")
-    public ResponseEntity deleteStudyInfo(@RequestBody StudySaveReqVO saveReqVO) {
+    public ResponseEntity deleteStudyInfo(@RequestBody StudySaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = studyService.deleteStudyInfo(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
