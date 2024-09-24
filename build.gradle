@@ -36,8 +36,13 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql'
     // mybatis
     implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
-    // DB SSH CONNECT
-    implementation 'com.jcraft:jsch:0.1.55'
+
+    // jwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
+    implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.1'
+
+    // SHA-256
+    implementation group: 'com.google.guava', name: 'guava', version: '31.1-jre'
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'

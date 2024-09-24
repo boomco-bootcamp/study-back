@@ -102,11 +102,11 @@
         <if test="searchCon != null and !searchCon.equals('')">
             /* 스터디 태그 목록 */
             LEFT JOIN (
-            SELECT stdy_id
-            FROM STDY_TAG_L
-            WHERE 1 = 1
-            AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
-            GROUP BY stdy_id
+                SELECT stdy_id
+                FROM STDY_TAG_L
+                WHERE 1 = 1
+                AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
+                GROUP BY stdy_id
             )  E ON E.stdy_id = A.stdy_id
         </if>
 

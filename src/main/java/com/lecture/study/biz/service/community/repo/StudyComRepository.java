@@ -47,7 +47,4 @@ public interface StudyComRepository {
 
     // 스터디 커뮤니티 첨부파일 삭제
     int deleteStudyComFileInfo(@Param("stdyComtId") String stdyComtId);
-
-
-
 }
