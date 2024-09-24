@@ -27,4 +27,41 @@
             </if>
     </select>
 
+    <!--    스터디 참여  -->
+    <insert id="insertMember" parameterType="MemberSaveReqVO">
+        INSERT INTO stdy_member_r
+        (
+            stdy_member_id
+            , stdy_id
+            , user_id
+            , stdy_member_yn
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        VALUES
+        (
+            #{stdyMemberId}
+            , #{stdyId}
+            , #{userId}
+            , #{stdyMemberYn}
+            , 'N'
+            , #{rgsnUserId}
+            , CURRENT_TIMESTAMP
+            , #{amnnUserId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!--    스터디 참여 삭제   -->
+    <update id="deleteMember" parameterType="MemberSaveReqVO">
+        UPDATE stdy_member_r
+        SET
+            del_yn          = 'Y'
+            , amnn_user_id  = #{amnnUserId}
+            , amnn_ts       = #{amnnTs}
+    </update>
+
 </mapper>
