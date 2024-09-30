@@ -8,6 +8,9 @@ import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import com.lecture.study.biz.service.like.LikeService;
 import com.lecture.study.biz.service.like.vo.LikeReqVO;
 import com.lecture.study.biz.service.like.vo.LikeResVO;
+import com.lecture.study.biz.service.tag.TagService;
+import com.lecture.study.biz.service.tag.vo.MyTagSaveReqVO;
+import com.lecture.study.biz.service.tag.vo.MyTagVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +27,12 @@ public class MyPageController {
 
     private final LikeService likeService;
     private final CategoryService categoryService;
+    private final TagService tagService;
 
-    public MyPageController(LikeService likeService, CategoryService categoryService) {
+    public MyPageController(LikeService likeService, CategoryService categoryService, TagService tagService) {
         this.likeService = likeService;
         this.categoryService = categoryService;
+        this.tagService = tagService;
     }
 
     /**
@@ -87,4 +92,63 @@ public class MyPageController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    /**
+     * 관심 태그 목록 조회
+     * @param user
+     * @return
+     */
+    @GetMapping("/tag/list")
+    public ResponseEntity searchMyTagList(@AuthenticationPrincipal User user) {
+        try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            List<MyTagVO> resultList = tagService.searchMyTagList(user.getUsername());
+            return ResponseEntity.ok(resultList);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 관심 태그 추가
+     * @param saveReqVO
+     * @param user
+     * @return
+     */
+    @PostMapping("/tag/add")
+    public ResponseEntity addMyTag(@RequestBody MyTagSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
+        try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setUserId(user.getUsername());
+            saveReqVO.setRgsnUserId(user.getUsername());
+            int result = tagService.addMyTag(saveReqVO);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 관심 태그 삭제
+     * @param saveReqVO
+     * @param user
+     * @return
+     */
+    @PostMapping("/tag/delete")
+    public ResponseEntity deleteMyTag(@RequestBody MyTagSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
+        try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setUserId(user.getUsername());
+            int result = tagService.deleteMyTag(saveReqVO);
+            return ResponseEntity.ok(result);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+
+
 }

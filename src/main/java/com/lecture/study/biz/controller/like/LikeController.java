@@ -52,7 +52,7 @@ public class LikeController {
      * @param user
      * @return
      */
-    @DeleteMapping("/delete")
+    @PostMapping("/delete")
     public ResponseEntity deleteLike(@RequestBody LikeSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
             if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
