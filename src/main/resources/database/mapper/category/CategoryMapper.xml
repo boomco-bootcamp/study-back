@@ -14,6 +14,7 @@
             , amnn_ts
 
         FROM stdy_cat_info_m
+        WHERE 1 = 1 AMD del_yn = 'N'
 
         ORDER BY stdy_cat_nm
     </select>
@@ -41,5 +42,25 @@
             , CURRENT_TIMESTAMP
         )
     </insert>
+
+    <!--    스터디 카테고리 수정 -->
+    <update id="updateCategoryInfo" parameterType="CategoryVO">
+        UPDATE stdy_cat_info_m
+        SET
+            stdy_cat_nm = #{stdyCatNm}
+            , amnn_user_id = #{amnnUserId}
+            , amnn_ts = CURRENT_TIMESTAMP
+        WHERE stdy_cat_id = #{stdyCatId}
+    </update>
+
+    <!--    스터디 카테고리 삭제 -->
+    <delete id="deleteCategoryInfo" parameterType="CategoryVO">
+        UPDATE stdy_cat_info_m
+        SET
+            del_yn = 'Y'
+            , amnn_user_id = #{amnnUserId}
+            , amnn_ts = CURRENT_TIMESTAMP
+        WHERE stdy_cat_id = #{stdyCatId}
+    </delete>
 
 </mapper>

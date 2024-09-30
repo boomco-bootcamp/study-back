@@ -14,4 +14,10 @@ public interface CategoryRepository {
     // 스터디 카테고리 작성
     int insertCategoryInfo(CategoryVO reqVO);
 
+    // 스터디 카테고리 수정
+    int updateCategoryInfo(CategoryVO reqVO);
+
+    // 스터디 카테고리 삭제
+    int deleteCategoryInfo(CategoryVO reqVO);
+
 }

@@ -21,4 +21,12 @@ public interface CategoryService {
      */
     int saveCategoryInfo(CategoryVO reqVO) throws Exception;
 
+    /**
+     * 스터디 카테고리 삭제
+     * @param reqVO
+     * @return
+     * @throws Exception
+     */
+    int deleteCategoryInfo(CategoryVO reqVO) throws Exception;
+
 }

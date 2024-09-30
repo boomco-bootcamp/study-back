@@ -43,10 +43,40 @@ public class CategoryServiceImpl implements CategoryService {
     public int saveCategoryInfo(CategoryVO reqVO) throws Exception {
 
         try {
-            if(StringUtils.isBlank(reqVO.getStdyCatNm())) return 0;
-            // UUID 생성
-            reqVO.setStdyCatId(UUID.randomUUID().toString());
-            return categoryRepository.insertCategoryInfo(reqVO);
+            int result = 0;
+
+            if(StringUtils.isBlank(reqVO.getStdyCatNm())) return result;
+
+            // 카테고리 ID 가 존재하지 않는 경우, 작성
+            if(StringUtils.isBlank(reqVO.getStdyCatId())) {
+                // UUID 생성
+                reqVO.setStdyCatId(UUID.randomUUID().toString());
+                result = categoryRepository.insertCategoryInfo(reqVO);
+            }
+
+            // 카테고리 ID 가 존재하는 경우, 수정
+            else {
+                result = categoryRepository.updateCategoryInfo(reqVO);
+            }
+
+            return result;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    /**
+     * 스터디 카테고리 삭제
+     * @param reqVO
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public int deleteCategoryInfo(CategoryVO reqVO) throws Exception {
+        try {
+            return categoryRepository.deleteCategoryInfo(reqVO);
         } catch (Exception e) {
             e.printStackTrace();
             throw e;
