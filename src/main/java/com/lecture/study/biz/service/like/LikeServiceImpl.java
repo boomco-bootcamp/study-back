@@ -24,7 +24,7 @@ public class LikeServiceImpl implements LikeService {
     }
 
     /**
-     * 내가 좋아요 한 스터디 목록 조회
+     * 관심 스터디 목록 조회
      * @param reqVO
      * @return
      * @throws Exception
@@ -32,9 +32,9 @@ public class LikeServiceImpl implements LikeService {
     @Override
     public PagingListVO<LikeResVO> searchMyLikeList(LikeReqVO reqVO) throws Exception {
         try {
-            // 내가 좋아요 한 스터디 목록 조회
+            // 관심 스터디 목록 조회
             List<LikeResVO> resultList = likeRepository.searchMyLikeList(reqVO);
-            // 내가 좋아요 한 스터디 토탈 카운트 조회
+            // 관심 스터디 토탈 카운트 조회
             int totalCnt = likeRepository.searchMyLikeTotal(reqVO);
 
             // 스터디 테그 조회

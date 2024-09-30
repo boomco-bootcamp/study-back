@@ -27,25 +27,6 @@ public class LikeController {
     }
 
     /**
-     * 내가 좋아요 한 스터디 목록 조회
-     * @param likeReqVO
-     * @param user
-     * @return
-     */
-    @GetMapping("list")
-    public ResponseEntity searchMyLikeList(LikeReqVO likeReqVO, @AuthenticationPrincipal User user) {
-        try {
-            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
-            likeReqVO.setLoginUserId(user.getUsername());
-            PagingListVO<LikeResVO> resultList = likeService.searchMyLikeList(likeReqVO);
-            return ResponseEntity.ok(resultList);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }
-
-    /**
      * 좋아요 작성
      * @param saveReqVO
      * @param user

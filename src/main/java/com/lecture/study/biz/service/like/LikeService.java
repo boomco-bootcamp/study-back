@@ -13,7 +13,7 @@ import java.io.IOException;
 public interface LikeService {
 
     /**
-     * 내가 좋아요 한 스터디 목록 조회
+     * 관심 스터디 목록 조회
      * @param likeReqVO
      * @return
      */
