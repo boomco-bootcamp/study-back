@@ -42,7 +42,7 @@
         ORDER BY A.rgsn_ts
         
         <if test="page != null and !page.equals('')">
-            LIMIT #{record} OFFSET (#{page} - 1)
+            LIMIT #{record} OFFSET (#{page} - 1) * #{record}
         </if>
     </select>
 
@@ -134,7 +134,7 @@
         ORDER BY A.rgsn_ts
 
         <if test="page != null and !page.equals('')">
-            LIMIT #{record} OFFSET (#{page} - 1)
+            LIMIT #{record} OFFSET (#{page} - 1) * #{record}
         </if>
     </select>
 

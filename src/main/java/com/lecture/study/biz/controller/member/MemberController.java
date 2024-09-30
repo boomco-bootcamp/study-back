@@ -2,7 +2,6 @@ package com.lecture.study.biz.controller.member;
 
 import com.lecture.study.biz.service.member.MemberService;
 import com.lecture.study.biz.service.member.vo.MemberSaveReqVO;
-import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

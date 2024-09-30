@@ -55,7 +55,7 @@
                 WHERE 1 = 1
                 AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
                 GROUP BY stdy_id
-            )  E ON E.stdy_id = A.stdy_id
+            )  F ON F.stdy_id = A.stdy_id
         </if>
 
         /* 등록/수정 사용자 정보 */
@@ -72,7 +72,7 @@
             AND (
                     UPPER(A.stdy_nm) LIKE '%' || UPPER(#{searchCon}) || '%'
                     OR
-                    E.stdy_id IS NOT NULL
+                    F.stdy_id IS NOT NULL
                 )
         </if>
 
@@ -90,7 +90,7 @@
             </choose>
         </if>
 
-        LIMIT #{record} OFFSET (#{page} - 1)
+        LIMIT #{record} OFFSET (#{page} - 1) * #{record}
     </select>
 
     <!--    스터디 정보 목록 총 카운트 -->
