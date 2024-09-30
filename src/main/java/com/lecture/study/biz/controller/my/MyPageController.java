@@ -8,6 +8,9 @@ import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import com.lecture.study.biz.service.like.LikeService;
 import com.lecture.study.biz.service.like.vo.LikeReqVO;
 import com.lecture.study.biz.service.like.vo.LikeResVO;
+import com.lecture.study.biz.service.member.MemberService;
+import com.lecture.study.biz.service.member.vo.MyMemberReqVO;
+import com.lecture.study.biz.service.member.vo.MyMemberResVO;
 import com.lecture.study.biz.service.tag.TagService;
 import com.lecture.study.biz.service.tag.vo.MyTagSaveReqVO;
 import com.lecture.study.biz.service.tag.vo.MyTagVO;
@@ -26,11 +29,13 @@ import java.util.List;
 public class MyPageController {
 
     private final LikeService likeService;
+    private final MemberService memberService;
     private final CategoryService categoryService;
     private final TagService tagService;
 
-    public MyPageController(LikeService likeService, CategoryService categoryService, TagService tagService) {
+    public MyPageController(LikeService likeService, MemberService memberService, CategoryService categoryService, TagService tagService) {
         this.likeService = likeService;
+        this.memberService = memberService;
         this.categoryService = categoryService;
         this.tagService = tagService;
     }
@@ -47,6 +52,25 @@ public class MyPageController {
             if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
             likeReqVO.setLoginUserId(user.getUsername());
             PagingListVO<LikeResVO> resultList = likeService.searchMyLikeList(likeReqVO);
+            return ResponseEntity.ok(resultList);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 가입 스터디 목록 조회
+     * @param memberReqVO
+     * @param user
+     * @return
+     */
+    @GetMapping("/member/list")
+    public ResponseEntity searchMyMemberList(MyMemberReqVO memberReqVO, @AuthenticationPrincipal User user) {
+        try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            memberReqVO.setUserId(user.getUsername());
+            PagingListVO<MyMemberResVO> resultList = memberService.searchMyMemberList(memberReqVO);
             return ResponseEntity.ok(resultList);
         } catch (Exception e) {
             log.error(e.getMessage());

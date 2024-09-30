@@ -64,4 +64,73 @@
             , amnn_ts       = #{amnnTs}
     </update>
 
+    <!--    관심 스터디 목록 조회    -->
+    <select id="selectMyMemberList" parameterType="MyMemberReqVO" resultType="MyMemberResVO">
+        SELECT
+             G.stdy_member_id
+             , G.stdy_member_yn
+             , A.stdy_id
+             , A.stdy_nm
+             , A.stdy_con
+             , TO_CHAR(A.stdy_st_dt, 'YYYY-MM-DD HH24:MI') AS stdy_st_dt
+             , TO_CHAR(A.stdy_en_dt, 'YYYY-MM-DD HH24:MI') AS stdy_en_dt
+             , A.stdy_st
+
+             , A.stdy_cat_id
+             , B.stdy_cat_nm
+
+             , A.del_yn
+             , A.rgsn_user_id
+             , RGSN.user_nm AS rgsn_user_nm
+             , A.rgsn_ts
+             , A.amnn_user_id
+             , AMNN.user_nm AS amnn_user_nm
+             , A.amnn_ts
+
+             , coalesce(C.stdy_views_cnt, 0) AS stdy_views_cnt
+             , coalesce(D.stdy_comment_cnt, 0) AS stdy_comment_cnt
+             , coalesce(E.stdy_like_cnt, 0) AS stdy_like_cnt
+
+             , CASE WHEN G.user_id IS NULL THEN 'N' ELSE 'Y' END AS like_yn
+
+        FROM stdy_info_m A
+
+                 /* 등록/수정 사용자 정보 */
+                 LEFT JOIN stdy_user_info_m RGSN ON RGSN.user_id = A.rgsn_user_id
+                 LEFT JOIN stdy_user_info_m AMNN ON AMNN.user_id = A.amnn_user_id
+
+            /* 스터디 카테고리 정보 */
+                 LEFT JOIN stdy_cat_info_m B ON B.stdy_cat_id = A.stdy_cat_id AND B.del_yn = 'N'
+
+            /* 스터디 방문자 목록 -> 방문자 수 */
+                 LEFT JOIN (
+            SELECT stdy_id, COUNT(0) AS stdy_views_cnt FROM stdy_views_l GROUP BY stdy_id
+        ) C ON C.stdy_id = A.stdy_id
+
+            /* 스터디 댓글 목록 -> 댓글 수*/
+                 LEFT JOIN (
+            SELECT stdy_id, COUNT(0) AS stdy_comment_cnt FROM stdy_comment_l GROUP BY stdy_id
+        ) D ON D.stdy_id = A.stdy_id
+
+            /* 스터디 관심 목록 ->  좋아요 수*/
+                 LEFT JOIN (
+            SELECT stdy_id, COUNT(0) AS stdy_like_cnt FROM stdy_like_l GROUP BY stdy_id
+        ) E ON E.stdy_id = A.stdy_id
+
+        /* 좋아요  */
+        LEFT JOIN stdy_like_l G ON G.stdy_id = A.stdy_id AND G.user_id = #{userId}
+
+        /* 스터디 참여인원 */
+        INNER JOIN stdy_member_r H ON H.stdy_id = A.stdy_id AND H.user_id = #{userId}
+
+        LIMIT #{record} OFFSET (#{page} - 1) * #{record}
+    </select>
+
+    <!--    가입 스터디 토탈 카운트 조회    -->
+    <select id="selectMyMemberTotal" parameterType="MyMemberReqVO" resultType="int">
+        SELECT COUNT(0)
+        FROM stdy_member_r
+        WHERE 1 = 1 AND user_id = #{userId}
+    </select>
+
 </mapper>
