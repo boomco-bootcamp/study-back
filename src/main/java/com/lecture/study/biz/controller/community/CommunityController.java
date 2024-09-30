@@ -82,6 +82,7 @@ public class CommunityController {
     @PostMapping("delete")
     public ResponseEntity deleteStudyComInfo(@RequestBody StudyComSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
             saveReqVO.setRgsnUserId(user.getUsername());
             saveReqVO.setAmnnUserId(user.getUsername());
             int result = communityService.deleteStudyComInfo(saveReqVO);

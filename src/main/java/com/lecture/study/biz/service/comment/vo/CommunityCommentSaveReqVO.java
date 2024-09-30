@@ -15,7 +15,7 @@ public class CommunityCommentSaveReqVO {
     private String stdyComCommentId;
 
     // 스터디 커뮤니티 ID
-    private String stdyComId;
+    private String stdyComtId;
 
     // 스터디 커뮤니티 댓글 내용
     private String stdyComCommentCon;

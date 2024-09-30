@@ -13,7 +13,7 @@ import org.apache.ibatis.type.Alias;
 public class CommunityCommentReqVO extends PageVO {
 
     // 스터디 커뮤니티 ID
-    private String stdyComId;
+    private String stdyComtId;
 
     // 스터디 부모 커뮤니티 댓글 ID
     private String stdyParentComCommentId;

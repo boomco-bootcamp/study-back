@@ -25,7 +25,7 @@ public interface CommentRepository {
     List<CommunityCommentResVO> selectCommunityCommentList(CommunityCommentReqVO reqVO);
 
     // 커뮤니티 댓글 카운트 조회
-    int selectCommunityCommentListCnt(@Param("stdyComId")String stdyComId);
+    int selectCommunityCommentListCnt(@Param("stdyComtId")String stdyComtId);
 
     // 커뮤니티 댓글 작성
     int insertCommunityComment(CommunityCommentSaveReqVO reqVO);

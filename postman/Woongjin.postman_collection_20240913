@@ -708,7 +708,7 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "http://localhost:8080/api/comment/community/list?stdyComId=3356c4dc-f05b-4d96-88ef-7aae938e15e9&page=1&record=10",
+											"raw": "http://localhost:8080/api/comment/community/list?stdyComtId=3356c4dc-f05b-4d96-88ef-7aae938e15e9&page=1&record=10",
 											"protocol": "http",
 											"host": [
 												"localhost"
@@ -722,7 +722,7 @@
 											],
 											"query": [
 												{
-													"key": "stdyComId",
+													"key": "stdyComtId",
 													"value": "3356c4dc-f05b-4d96-88ef-7aae938e15e9",
 													"description": "스터디 커뮤니티 ID"
 												},
@@ -746,7 +746,7 @@
 												"method": "GET",
 												"header": [],
 												"url": {
-													"raw": "http://localhost:8080/api/comment/community/list?stdyComId=3356c4dc-f05b-4d96-88ef-7aae938e15e9&page=1&record=10",
+													"raw": "http://localhost:8080/api/comment/community/list?stdyComtId=3356c4dc-f05b-4d96-88ef-7aae938e15e9&page=1&record=10",
 													"protocol": "http",
 													"host": [
 														"localhost"
@@ -760,7 +760,7 @@
 													],
 													"query": [
 														{
-															"key": "stdyComId",
+															"key": "stdyComtId",
 															"value": "3356c4dc-f05b-4d96-88ef-7aae938e15e9",
 															"description": "스터디 커뮤니티 ID"
 														},
@@ -791,7 +791,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n    \"stdyComId\" : \"3356c4dc-f05b-4d96-88ef-7aae938e15e9\",\r\n    \"stdyParentComCommentId\" : \"b528b10d-2855-42e1-b76d-90462b31f58f\", //대댓글인 경우 스터디 댓글 ID 입력\r\n    \"stdyComCommentCon\" : \"삭제될 예정입니다!\"\r\n}",
+											"raw": "{\r\n    \"stdyComtId\" : \"3356c4dc-f05b-4d96-88ef-7aae938e15e9\",\r\n    \"stdyParentComCommentId\" : \"b528b10d-2855-42e1-b76d-90462b31f58f\", //대댓글인 경우 스터디 댓글 ID 입력\r\n    \"stdyComCommentCon\" : \"삭제될 예정입니다!\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -821,7 +821,7 @@
 												"header": [],
 												"body": {
 													"mode": "raw",
-													"raw": "public class CommunityCommentSaveReqVO {\r\n    // 스터디 커뮤니티 ID\r\n    private String stdyComId;\r\n\r\n    // 스터디 커뮤니티 댓글 내용\r\n    private String stdyComCommentCon;\r\n\r\n    // 스터디 부모 커뮤니티 댓글 ID\r\n    private String stdyParentComCommentId;\r\n}",
+													"raw": "public class CommunityCommentSaveReqVO {\r\n    // 스터디 커뮤니티 ID\r\n    private String stdyComtId;\r\n\r\n    // 스터디 커뮤니티 댓글 내용\r\n    private String stdyComCommentCon;\r\n\r\n    // 스터디 부모 커뮤니티 댓글 ID\r\n    private String stdyParentComCommentId;\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"

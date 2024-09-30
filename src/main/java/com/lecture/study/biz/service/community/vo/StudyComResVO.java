@@ -34,12 +34,16 @@ public class StudyComResVO {
 
     // 등록 사용자
     private String rgsnUserId;
+    // 등록 사용자 명
+    private String rgsnUserNm;
 
     // 등록 일시
     private Timestamp rgsnTs;
 
     // 수정 사용자
     private String amnnUserId;
+    // 수정 사용자 명
+    private String amnnUserNm;
 
     // 수정 일시
     private Timestamp amnnTs;
