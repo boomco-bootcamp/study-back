@@ -26,6 +26,9 @@ public class SpringSecurityFilter {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
+        // CORS 설정 추가
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
+
         http.addFilterBefore(loginFilter, UsernamePasswordAuthenticationFilter.class);
 
         //경로별 권한 추가(인가)
@@ -68,13 +71,16 @@ public class SpringSecurityFilter {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-
         // Local
         configuration.addAllowedOriginPattern("http://localhost:3000");
         configuration.addAllowedOriginPattern("https://localhost:3000");
 
-        configuration.addAllowedOriginPattern("http://localhost:3000");
-        configuration.addAllowedOriginPattern("https://localhost:3000");
+        // prod
+        configuration.addAllowedOriginPattern("http://3.34.41.77:7601");
+        configuration.addAllowedOriginPattern("https://3.34.41.77:7601");
+
+        configuration.addAllowedOriginPattern("http://3.34.41.77");
+        configuration.addAllowedOriginPattern("https://3.34.41.77");
 
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
