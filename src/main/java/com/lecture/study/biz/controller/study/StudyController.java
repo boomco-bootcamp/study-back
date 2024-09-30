@@ -29,11 +29,15 @@ public class StudyController {
     /**
      * 스터디 목록 조회
      * @param reqVO
+     * @param user
      * @return
      */
     @GetMapping("/list")
-    public ResponseEntity searchStudyInfoList(StudyReqVO reqVO) {
+    public ResponseEntity searchStudyInfoList(StudyReqVO reqVO, @AuthenticationPrincipal User user) {
         try {
+            // 로그인이 되어있는 경우, loginUserId 셋팅(좋아요 검색 관련)
+            if(user != null) reqVO.setLoginUserId(user.getUsername());
+
             PagingListVO<StudyResVO> resultList = studyService.searchStudyInfoList(reqVO);
             return ResponseEntity.ok().body(resultList);
         } catch (Exception e) {
@@ -45,11 +49,15 @@ public class StudyController {
     /**
      * 스터디 상세 정보 조회
      * @param reqVO
+     * @param user
      * @return
      */
     @GetMapping("/detail")
-    public ResponseEntity searchStudyInfo(StudyReqVO reqVO) {
+    public ResponseEntity searchStudyInfo(StudyReqVO reqVO, @AuthenticationPrincipal User user) {
         try {
+            // 로그인이 되어있는 경우, loginUserId 셋팅(좋아요 검색 관련)
+            if(user != null) reqVO.setLoginUserId(user.getUsername());
+
             StudyResVO rsult = studyService.searchStudyInfo(reqVO);
             return ResponseEntity.ok().body(rsult);
         } catch (Exception e) {

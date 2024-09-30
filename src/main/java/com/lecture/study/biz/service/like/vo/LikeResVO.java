@@ -1,4 +1,4 @@
-package com.lecture.study.biz.service.study.vo;
+package com.lecture.study.biz.service.like.vo;
 
 import com.lecture.study.biz.service.member.vo.MemberResVO;
 import com.lecture.study.biz.service.tag.vo.TagVO;
@@ -8,12 +8,9 @@ import org.apache.ibatis.type.Alias;
 import java.sql.Timestamp;
 import java.util.List;
 
-/**
- * 스터디 조회 관련 Res VO
- */
 @Data
-@Alias("StudyResVO")
-public class StudyResVO {
+@Alias("LikeResVO")
+public class LikeResVO {
 
     // 스터디 ID
     private String stdyId;
@@ -77,6 +74,4 @@ public class StudyResVO {
     // 총 좋아요 수
     private int stdyLikeCnt;
 
-    // 좋아요 여부
-    private String likeYn = "N";
 }

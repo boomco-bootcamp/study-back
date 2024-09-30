@@ -10,7 +10,6 @@ import com.lecture.study.biz.service.study.vo.StudyReqVO;
 import com.lecture.study.biz.service.study.vo.StudyResVO;
 import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
 import com.lecture.study.biz.service.tag.TagService;
-import com.lecture.study.biz.service.tag.repo.TagRepository;
 import com.lecture.study.biz.service.tag.vo.TagVO;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -78,7 +77,7 @@ public class StudyServiceImpl implements StudyService {
             if(StringUtils.isBlank(reqVO.getStdyId())) return new StudyResVO();
 
             // 스터디 상세 정보 조회
-            StudyResVO result = studyRepository.selectStudyInfo(reqVO.getStdyId());
+            StudyResVO result = studyRepository.selectStudyInfo(reqVO);
 
 
             if(result != null) {
