@@ -10,13 +10,19 @@ logging:
 
 ---
 
-# USER
-spring:
-  security:
-    user:
-      name: user
-      password: 123
-      roles: USER
+# jwt
+jwt:
+  secretKey: studyprojectjwtkeysecret
+  # 밀리초 -> 24시간
+  expiredTime : 86400000
+
+  # USER
+  spring:
+    security:
+      user:
+        name: user
+        password: 123
+        roles: USER
 
 ---
 

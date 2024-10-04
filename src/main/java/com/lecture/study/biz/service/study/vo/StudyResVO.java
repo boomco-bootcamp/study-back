@@ -74,4 +74,9 @@ public class StudyResVO {
     // 총 댓글 수
     private int stdyCommentCnt;
 
+    // 총 좋아요 수
+    private int stdyLikeCnt;
+
+    // 좋아요 여부
+    private String likeYn = "N";
 }

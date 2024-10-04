@@ -22,7 +22,7 @@ public interface StudyRepository {
     int selectStudyInfoTotal(StudyReqVO reqVO);
 
     // 스터디 상세 정보 조회
-    StudyResVO selectStudyInfo(@Param("stdyId")String stdyId);
+    StudyResVO selectStudyInfo(StudyReqVO reqVO);
 
     // 스터디 정보 작성
     int insertStudyInfo(StudySaveReqVO saveReqVO);

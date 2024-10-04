@@ -296,7 +296,6 @@ COMMENT ON COLUMN study.STDY_COM_L.AMNN_TS IS '수정 일시';
 CREATE TABLE study.STDY_COM_FILE_L (
                                            STDY_COMT_ID varchar(100) NOT NULL, -- 스터디 커뮤니티 ID
                                            FILE_ID      varchar(100) NOT NULL, -- 파일 ID
-                                           DEL_YN       varchar(1)   NULL,     -- 삭제 여부
                                            RGSN_USER_ID varchar(50)  NULL,     -- 등록 사용자
                                            RGSN_TS      TIMESTAMP    NULL,     -- 등록 일시
                                            AMNN_USER_ID varchar(50)  NULL,     -- 수정 사용자
@@ -317,7 +316,6 @@ ALTER TABLE study.STDY_COM_FILE_L
 COMMENT ON TABLE  study.STDY_COM_FILE_L IS '스터디 커뮤니티 첨부파일 목록';
 COMMENT ON COLUMN study.STDY_COM_FILE_L.STDY_COMT_ID IS '스터디 커뮤니티 ID';
 COMMENT ON COLUMN study.STDY_COM_FILE_L.FILE_ID IS '파일 ID';
-COMMENT ON COLUMN study.STDY_COM_FILE_L.DEL_YN IS '삭제 여부';
 COMMENT ON COLUMN study.STDY_COM_FILE_L.RGSN_USER_ID IS '등록 사용자';
 COMMENT ON COLUMN study.STDY_COM_FILE_L.RGSN_TS IS '등록 일시';
 COMMENT ON COLUMN study.STDY_COM_FILE_L.AMNN_USER_ID IS '수정 사용자';
@@ -523,7 +521,7 @@ COMMENT ON COLUMN study.STDY_VIEWS_L.RGSN_TS IS '등록 일시';
 -- 스터디 커뮤니티 댓글 목록
 CREATE TABLE MY_SCHEMA.STDY_COM_COMMENT_L    (
                                                  STDY_COM_COMMENT_ID             VARCHAR(100) NOT NULL, -- 스터디 커뮤니티 댓글 ID
-                                                 STDY_COM_ID                     VARCHAR(100) NOT NULL, -- 스터디 커뮤니티 ID
+                                                 STDY_COMT_ID                     VARCHAR(100) NOT NULL, -- 스터디 커뮤니티 ID
                                                  STDY_COM_COMMENT_CON            VARCHAR(500) NULL,     -- 스터티 커뮤니티 댓글 내용
                                                  STDY_PARENT_COM_COMMENT_ID      VARCHAR(100) NULL,     -- 스터디 커뮤니티 부모 댓글 ID
                                                  DEL_YN                          VARCHAR(1)   NULL,     -- 삭제 여부

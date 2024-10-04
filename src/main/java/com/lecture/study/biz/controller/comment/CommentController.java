@@ -6,6 +6,8 @@ import com.lecture.study.biz.service.comon.vo.PagingListVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -41,8 +43,11 @@ public class CommentController {
      * @return
      */
     @PostMapping("/study/save")
-    public ResponseEntity saveStudyComment(@RequestBody StudyCommentSaveReqVO saveReqVO) {
+    public ResponseEntity saveStudyComment(@RequestBody StudyCommentSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = commentService.saveStudyComment(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -57,8 +62,11 @@ public class CommentController {
      * @return
      */
     @PostMapping("/study/delete")
-    public ResponseEntity deleteStudyComment(@RequestBody StudyCommentSaveReqVO saveReqVO) {
+    public ResponseEntity deleteStudyComment(@RequestBody StudyCommentSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = commentService.deleteStudyComment(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -89,8 +97,11 @@ public class CommentController {
      * @return
      */
     @PostMapping("/community/save")
-    public ResponseEntity saveCommunityComment(@RequestBody CommunityCommentSaveReqVO saveReqVO) {
+    public ResponseEntity saveCommunityComment(@RequestBody CommunityCommentSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = commentService.saveCommunityComment(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
@@ -105,8 +116,11 @@ public class CommentController {
      * @return
      */
     @PostMapping("community/delete")
-    public ResponseEntity deleteCommunityComment(@RequestBody CommunityCommentSaveReqVO saveReqVO) {
+    public ResponseEntity deleteCommunityComment(@RequestBody CommunityCommentSaveReqVO saveReqVO, @AuthenticationPrincipal User user) {
         try {
+            if(user == null) throw new Exception("로그인이 필요한 서비스 입니다.");
+            saveReqVO.setRgsnUserId(user.getUsername());
+            saveReqVO.setAmnnUserId(user.getUsername());
             int result = commentService.deleteCommunityComment(saveReqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {

@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.community.repo.StudyComRepository">
+
+    <!--    스터디 커뮤니티 목록 조회  -->
+    <select id="selectStudyComList" parameterType="StudyComReqVO" resultType="StudyComResVO">
+        SELECT
+            A.stdy_comt_id
+            , A.stdy_id
+            , A.stdy_com_title
+            , A.stdy_com_con
+            , A.stdy_com_st
+            , A.del_yn
+            , A.rgsn_user_id
+            , RGSN.user_nm AS rgsn_user_nm
+            , A.rgsn_ts
+            , A.amnn_user_id
+            , AMNN.user_nm AS amnn_user_nm
+            , A.amnn_ts
+
+            , coalesce(B.stdy_com_views_cnt, 0) AS stdy_com_views_cnt
+            , coalesce(C.stdy_com_comment_cnt, 0) AS stdy_com_comment_cnt
+
+        FROM stdy_com_l A
+
+        /* 등록/수정 사용자 정보 */
+        LEFT JOIN stdy_user_info_m RGSN ON RGSN.user_id = A.rgsn_user_id
+        LEFT JOIN stdy_user_info_m AMNN ON AMNN.user_id = A.amnn_user_id
+
+        /* 스터디 방문자 목록 -> 방문자 수 */
+        LEFT JOIN (
+            SELECT stdy_comt_id, COUNT(0) AS stdy_com_views_cnt FROM stdy_com_views_l GROUP BY stdy_comt_id
+        ) B ON B.stdy_comt_id = A.stdy_comt_id
+
+        /* 스터디 댓글 목록 -> 댓글 수*/
+        LEFT JOIN (
+            SELECT stdy_comt_id, COUNT(0) AS stdy_com_comment_cnt FROM stdy_com_comment_l GROUP BY stdy_comt_id
+        ) C ON C.stdy_comt_id = A.stdy_comt_id
+
+
+        WHERE 1 = 1 AND A.del_yn ='N'
+
+            AND A.stdy_id = #{stdyId}
+
+            <if test="stdyComSt != null and !stdyComSt.equals('')">
+                AND A.stdy_com_st = #{stdyComSt}
+            </if>
+
+            <if test="searchCon != null and !searchCon.equals('')">
+                AND (
+                    UPPER(A.stdy_com_title) LIKE '%' || UPPER(#{searchCon}) || '%'
+                    OR
+                    UPPER(A.stdy_com_con) LIKE '%' || UPPER(#{searchCon}) || '%'
+                )
+            </if>
+
+            <if test="orderType != null and !orderType.equals('')">
+                <choose>
+                    <when test='orderType.equals("desc")'>
+                        ORDER BY A.rgsn_ts DESC
+                    </when>
+                    <when test='orderType.equals("view")'>
+                        ORDER BY coalesce(B.stdy_com_views_cnt, 0) DESC
+                    </when>
+                    <when test='orderType.equals("reply")'>
+                        ORDER BY coalesce(C.stdy_com_comment_cnt, 0) DESC
+                    </when>
+                </choose>
+            </if>
+    </select>
+
+    <!--    스터디 커뮤니티 목록 토탈 카운트 조회   -->
+    <select id="selectStudyComTotal" parameterType="StudyComReqVO" resultType="int">
+        SELECT COUNT(0)
+        FROM stdy_com_l A
+        WHERE 1 = 1 AND A.del_yn ='N'
+
+            AND A.stdy_id = #{stdyId}
+
+            <if test="stdyComSt != null and !stdyComSt.equals('')">
+                AND A.stdy_com_st = #{stdyComSt}
+            </if>
+
+            <if test="searchCon != null and !searchCon.equals('')">
+                AND (
+                    UPPER(A.stdy_com_title) LIKE '%' || UPPER(#{searchCon}) || '%'
+                    OR
+                    UPPER(A.stdy_com_con) LIKE '%' || UPPER(#{searchCon}) || '%'
+                )
+            </if>
+    </select>
+
+    <!--    스터디 커뮤니티 상세 조회  -->
+    <select id="selectStudyComInfo" parameterType="string" resultType="StudyComResVO">
+        SELECT
+            A.stdy_comt_id
+            , A.stdy_id
+            , A.stdy_com_title
+            , A.stdy_com_con
+            , A.stdy_com_st
+            , A.del_yn
+            , A.rgsn_user_id
+            , RGSN.user_nm AS rgsn_user_nm
+            , A.rgsn_ts
+            , A.amnn_user_id
+            , AMNN.user_nm AS amnn_user_nm
+            , A.amnn_ts
+
+            , coalesce(B.stdy_com_views_cnt, 0) AS stdy_com_views_cnt
+            , coalesce(C.stdy_com_comment_cnt, 0) AS stdy_com_comment_cnt
+
+        FROM stdy_com_l A
+
+        /* 등록/수정 사용자 정보 */
+        LEFT JOIN stdy_user_info_m RGSN ON RGSN.user_id = A.rgsn_user_id
+        LEFT JOIN stdy_user_info_m AMNN ON AMNN.user_id = A.amnn_user_id
+
+        /* 스터디 방문자 목록 -> 방문자 수 */
+        LEFT JOIN (
+            SELECT stdy_comt_id, COUNT(0) AS stdy_com_views_cnt FROM stdy_com_views_l GROUP BY stdy_comt_id
+        ) B ON B.stdy_comt_id = A.stdy_comt_id
+
+        /* 스터디 댓글 목록 -> 댓글 수*/
+        LEFT JOIN (
+            SELECT stdy_comt_id, COUNT(0) AS stdy_com_comment_cnt FROM stdy_com_comment_l GROUP BY stdy_comt_id
+        ) C ON C.stdy_comt_id = A.stdy_comt_id
+
+        WHERE 1 = 1
+            AND A.del_yn ='N'
+            AND A.stdy_comt_id = #{stdyComtId}
+    </select>
+
+    <!--    스터디 커뮤니티 작성 -->
+    <insert id="insertStudyComInfo" parameterType="StudyComSaveReqVO">
+        INSERT INTO stdy_com_l
+        (
+            stdy_comt_id
+            , stdy_id
+            , stdy_com_title
+            , stdy_com_con
+            , stdy_com_st
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        VALUES
+        (
+            #{stdyComtId}
+            , #{stdyId}
+            , #{stdyComTitle}
+            , #{stdyComCon}
+            , #{stdyComSt}
+            , 'N'
+            , #{rgsnUserId}
+            , CURRENT_TIMESTAMP
+            , #{amnnUserId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!--    스터디 커뮤니티 수정 -->
+    <update id="updateStudyComInfo" parameterType="StudyComSaveReqVO">
+        UPDATE
+            stdy_com_l
+        SET
+            stdy_com_title   = #{stdyComTitle}
+            , stdy_com_con   = #{stdyComCon}
+            , stdy_com_st    = #{stdyComSt}
+            , amnn_user_id   = #{amnnUserId}
+            , amnn_ts        = CURRENT_TIMESTAMP
+
+        WHERE stdy_comt_id = #{stdyComtId}
+    </update>
+
+    <!--    스터디 커뮤니티 삭제 -->
+    <update id="deleteStudyComInfo" parameterType="StudyComSaveReqVO">
+        UPDATE
+            stdy_com_l
+        SET
+            del_yn = 'Y'
+          , amnn_user_id = #{amnnUserId}
+          , amnn_ts = CURRENT_TIMESTAMP
+        WHERE 1 = 1
+          AND stdy_comt_id = #{stdyComtId}
+    </update>
+
+    <!--    스터디 첨부파일 목록 조회  -->
+    <select id="selectStudyComFileList" parameterType="string" resultType="StudyComFileVO">
+        SELECT
+            A.stdy_comt_id
+            , A.file_id
+            , A.rgsn_user_id
+            , A.rgsn_ts
+            , A.amnn_user_id
+            , A.amnn_ts
+
+            , B.file_nm
+            , B.file_ents
+            , B.file_ptrn
+            , B.file_size
+
+        FROM stdy_com_file_l A
+
+        /* 첨부파일 정보 */
+        LEFT JOIN file_atch_m B ON B.file_id = A.file_id AND B.del_yn = 'N'
+
+        WHERE 1 = 1 AND A.stdy_comt_id = #{stdyComtId}
+
+    </select>
+
+    <!--    스터디 커뮤니티 첨부파일 작성    -->
+    <insert id="insertStudyComFileInfo" parameterType="StudyComFileVO">
+        INSERT INTO stdy_com_file_l
+        (
+            stdy_comt_id
+            , file_id
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        VALUES
+        (
+            #{stdyComtId}
+            , #{fileId}
+            , #{rgsnUserId}
+            , CURRENT_TIMESTAMP
+            , #{amnnUserId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!--    스터디 커뮤니티 첨부파일 삭제    -->
+    <update id="deleteStudyComFileInfo" parameterType="StudyComFileVO">
+        DELETE FROM stdy_com_file_l
+        WHERE 1 = 1
+          AND stdy_comt_id = #{stdyComtId}
+    </update>
+
+</mapper>

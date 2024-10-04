@@ -25,6 +25,11 @@
 
             , coalesce(C.stdy_views_cnt, 0) AS stdy_views_cnt
             , coalesce(D.stdy_comment_cnt, 0) AS stdy_comment_cnt
+            , coalesce(E.stdy_like_cnt, 0) AS stdy_like_cnt
+
+            <if test="loginUserId != null and !loginUserId.equals('')">
+                , CASE WHEN G.user_id IS NULL THEN 'N' ELSE 'Y' END AS like_yn
+            </if>
 
         FROM stdy_info_m A
 
@@ -41,6 +46,11 @@
             SELECT stdy_id, COUNT(0) AS stdy_comment_cnt FROM stdy_comment_l GROUP BY stdy_id
         ) D ON D.stdy_id = A.stdy_id
 
+        /* 스터디 관심 목록 ->  좋아요 수*/
+        LEFT JOIN (
+        SELECT stdy_id, COUNT(0) AS stdy_like_cnt FROM stdy_like_l GROUP BY stdy_id
+        ) E ON E.stdy_id = A.stdy_id
+
         <if test="searchCon != null and !searchCon.equals('')">
             /* 스터디 태그 목록 */
             LEFT JOIN (
@@ -49,7 +59,12 @@
                 WHERE 1 = 1
                 AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
                 GROUP BY stdy_id
-            )  E ON E.stdy_id = A.stdy_id
+            )  F ON F.stdy_id = A.stdy_id
+        </if>
+
+        /* 좋아요 여부 */
+        <if test="loginUserId != null and !loginUserId.equals('')">
+            LEFT JOIN stdy_like_l G ON G.stdy_id = A.stdy_id AND G.user_id = #{loginUserId}
         </if>
 
         /* 등록/수정 사용자 정보 */
@@ -66,7 +81,7 @@
             AND (
                     UPPER(A.stdy_nm) LIKE '%' || UPPER(#{searchCon}) || '%'
                     OR
-                    E.stdy_id IS NOT NULL
+                    F.stdy_id IS NOT NULL
                 )
         </if>
 
@@ -76,15 +91,15 @@
                     ORDER BY A.rgsn_ts DESC
                 </when>
                 <when test='orderType.equals("view")'>
-                    ORDER BY coalesce(C.stdy_views_cnt, 0) ASC
+                    ORDER BY coalesce(C.stdy_views_cnt, 0) DESC
                 </when>
                 <when test='orderType.equals("reply")'>
-                    ORDER BY coalesce(D.stdy_comment_cnt, 0) ASC
+                    ORDER BY coalesce(D.stdy_comment_cnt, 0) DESC
                 </when>
             </choose>
         </if>
 
-        LIMIT #{record} OFFSET (#{page} - 1)
+        LIMIT #{record} OFFSET (#{page} - 1) * #{record}
     </select>
 
     <!--    스터디 정보 목록 총 카운트 -->
@@ -96,11 +111,11 @@
         <if test="searchCon != null and !searchCon.equals('')">
             /* 스터디 태그 목록 */
             LEFT JOIN (
-            SELECT stdy_id
-            FROM STDY_TAG_L
-            WHERE 1 = 1
-            AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
-            GROUP BY stdy_id
+                SELECT stdy_id
+                FROM STDY_TAG_L
+                WHERE 1 = 1
+                AND UPPER(stdy_tag_con) LIKE '%' || UPPER(#{searchCon}) || '%'
+                GROUP BY stdy_id
             )  E ON E.stdy_id = A.stdy_id
         </if>
 
@@ -120,7 +135,7 @@
     </select>
 
     <!--    스터디 상세 정보 조회    -->
-    <select id="selectStudyInfo" parameterType="string" resultType="StudyResVO">
+    <select id="selectStudyInfo" parameterType="StudyReqVO" resultType="StudyResVO">
         SELECT
             A.stdy_id
             /* 이전 글 ID - 정렬 조건 : 글 등록 순 */
@@ -155,6 +170,13 @@
 
             , coalesce(C.stdy_views_cnt, 0) AS stdy_views_cnt
             , coalesce(D.stdy_comment_cnt, 0) AS stdy_comment_cnt
+            , coalesce(E.stdy_like_cnt, 0) AS stdy_like_cnt
+
+            <if test="loginUserId != null and !loginUserId.equals('')">
+                , CASE WHEN G.user_id IS NULL THEN 'N' ELSE 'Y' END AS like_yn
+            </if>
+
+
 
         FROM stdy_info_m A
 
@@ -171,9 +193,19 @@
             SELECT stdy_id, COUNT(0) AS stdy_comment_cnt FROM stdy_comment_l GROUP BY stdy_id
         ) D ON D.stdy_id = A.stdy_id
 
+        /* 스터디 관심 목록 ->  좋아요 수*/
+        LEFT JOIN (
+            SELECT stdy_id, COUNT(0) AS stdy_like_cnt FROM stdy_like_l GROUP BY stdy_id
+        ) E ON E.stdy_id = A.stdy_id
+
         /* 등록/수정 사용자 정보 */
         LEFT JOIN stdy_user_info_m RGSN ON RGSN.user_id = A.rgsn_user_id
         LEFT JOIN stdy_user_info_m AMNN ON AMNN.user_id = A.amnn_user_id
+
+        /* 좋아요 여부 */
+        <if test="loginUserId != null and !loginUserId.equals('')">
+            LEFT JOIN stdy_like_l G ON G.stdy_id = A.stdy_id AND G.user_id = #{loginUserId}
+        </if>
 
         WHERE 1 = 1
           AND A.del_yn ='N'

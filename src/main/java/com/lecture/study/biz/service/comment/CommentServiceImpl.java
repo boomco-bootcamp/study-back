@@ -93,7 +93,7 @@ public class CommentServiceImpl implements CommentService {
             // 커뮤니티 댓글 목록 조회
             List<CommunityCommentResVO> resultList = commentRepository.selectCommunityCommentList(reqVO);
             // 커뮤니티 댓글 카운트 조회
-            int total = commentRepository.selectCommunityCommentListCnt(reqVO.getStdyComId());
+            int total = commentRepository.selectCommunityCommentListCnt(reqVO.getStdyComtId());
 
             for (CommunityCommentResVO x : resultList) {
                 reqVO.setStdyParentComCommentId(x.getStdyComCommentId());

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.user.repo.UserRepository">
+
+    <!--    유저 정보 조회    -->
+    <select id="selectUserInfo" parameterType="UserReqVO" resultType="UserInfoVO">
+        SELECT
+            user_id
+             <if test="passwordYn != null and !passwordYn.equals('')">
+                 , user_pswd
+             </if>
+            , user_nm
+            , user_eml
+            , user_tel
+            , user_sns_id
+            , user_sns_type
+            , sys_adm_yn
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+
+        FROM stdy_user_info_m
+
+        WHERE 1 = 1
+            AND user_id = #{userId}
+            <if test="delCheck == null or delCheck.equals('')">
+                AND del_yn = 'N'
+            </if>
+    </select>
+
+    <!--    회원 가입   -->
+    <insert id="insertUserInfo" parameterType="UserSaveReqVO">
+        INSERT INTO stdy_user_info_m
+        (
+            user_id
+            , user_pswd
+            , user_nm
+            , user_eml
+            , user_tel
+            , user_sns_id
+            , user_sns_type
+            , sys_adm_yn
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        VALUES
+        (
+            #{userId}
+            , #{userPswd}
+            , #{userNm}
+            , #{userEml}
+            , #{userTel}
+            , #{userSnsId}
+            , #{userSnsType}
+            , #{sysAdmYn}
+            , 'N'
+            , #{userId}
+            , CURRENT_TIMESTAMP
+            , #{userId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+    <!--    회원 정보 변경    -->
+    <update id="updateUserInfo" parameterType="UserSaveReqVO">
+        UPDATE stdy_user_info_m
+
+        SET
+            user_nm       = #{userNm}
+            , user_eml      = #{userEml}
+            , user_tel      = #{userTel}
+            <if test="userPswd != null and !userPswd.equals('')">
+                , user_pswd     = #{userPswd}
+            </if>
+            , amnn_user_id  = #{userId}
+            , amnn_ts       = CURRENT_TIMESTAMP
+
+        WHERE 1 = 1
+            AND user_id = #{userId}
+    </update>
+
+    <!--    회원 탈퇴   -->
+    <delete id="deleteUserInfo" parameterType="string">
+        UPDATE stdy_user_info_m
+        SET
+            del_yn          = 'Y'
+            , amnn_user_id  = #{userId}
+            , amnn_ts       = CURRENT_TIMESTAMP
+
+        WHERE 1 = 1
+          AND user_id = #{userId}
+    </delete>
+
+</mapper>
