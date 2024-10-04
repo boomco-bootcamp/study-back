@@ -2,10 +2,7 @@ package com.lecture.study.biz.controller.user;
 
 import com.lecture.study.biz.service.study.vo.StudySaveReqVO;
 import com.lecture.study.biz.service.user.UserService;
-import com.lecture.study.biz.service.user.vo.LoginReqVO;
-import com.lecture.study.biz.service.user.vo.UserInfoVO;
-import com.lecture.study.biz.service.user.vo.UserReqVO;
-import com.lecture.study.biz.service.user.vo.UserSaveReqVO;
+import com.lecture.study.biz.service.user.vo.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +24,6 @@ public class UserController {
         this.userService = userService;
     }
 
-    // TODO 파일 업로드
-    // TODO 마이페이지 서비스 추가
-
     /**
      * 로그인
      * @param loginReqVO
@@ -41,6 +35,39 @@ public class UserController {
             // 유저 ID 패스워드 받아서 JWT 토큰 생성
             String jwtToken = userService.login(loginReqVO);
             return ResponseEntity.ok().body(jwtToken);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 로그인 for kakao
+     * @param loginReqVO
+     * @return
+     */
+    @PostMapping("/login/kakao")
+    public ResponseEntity loginKakao(@RequestBody LoginReqVO loginReqVO) {
+        try {
+            // 유저 ID 패스워드 받아서 JWT 토큰 생성
+            String jwtToken = userService.loginKakao(loginReqVO.getCode());
+            return ResponseEntity.ok().body(jwtToken);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 로그아웃 for kakao
+     * @param loginReqVO
+     * @return
+     */
+    @PostMapping("/logout/kakao")
+    public ResponseEntity logoutKakao(@RequestBody LoginReqVO loginReqVO) {
+        try {
+            int result = userService.logoutKakao(loginReqVO.getCode());
+            return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -109,6 +136,22 @@ public class UserController {
     public ResponseEntity deleteUserInfo(@AuthenticationPrincipal User user) {
         try {
             int result = userService.deleteUserInfo(user.getUsername());
+            return ResponseEntity.ok().body(result);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+
+    /**
+     * 패스워드 찾기(임시 패스워드 발급)
+     * @param reqVO
+     * @return
+     */
+    @PostMapping("/find")
+    public ResponseEntity findPassword(@RequestBody UserFindReqVO reqVO) {
+        try {
+            int result = userService.findPassword(reqVO);
             return ResponseEntity.ok().body(result);
         } catch (Exception e) {
             log.error(e.getMessage());

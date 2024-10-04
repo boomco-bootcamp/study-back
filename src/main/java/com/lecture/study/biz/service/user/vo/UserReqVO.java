@@ -16,5 +16,13 @@ public class UserReqVO {
     // 삭제 체크
     private String delCheck;
 
+    /*
+     * SNS 연동
+     */
+    // 유저 SNS ID
+    private String userSnsId;
+    // 유저 SNS 타입
+    private String userSnsType;
+
 
 }

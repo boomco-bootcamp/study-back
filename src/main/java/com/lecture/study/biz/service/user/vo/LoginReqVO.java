@@ -11,4 +11,7 @@ public class LoginReqVO {
     private String userId;
     // 유저 패스워드
     private String userPswd;
+
+    // 카카오 로그인 용 code
+    private String code;
 }

@@ -1,9 +1,6 @@
 package com.lecture.study.biz.service.user;
 
-import com.lecture.study.biz.service.user.vo.LoginReqVO;
-import com.lecture.study.biz.service.user.vo.UserInfoVO;
-import com.lecture.study.biz.service.user.vo.UserReqVO;
-import com.lecture.study.biz.service.user.vo.UserSaveReqVO;
+import com.lecture.study.biz.service.user.vo.*;
 
 public interface UserService {
 
@@ -14,6 +11,22 @@ public interface UserService {
      * @throws Exception
      */
     String login(LoginReqVO loginReqVO) throws Exception;
+
+    /**
+     * 로그인 for kakao
+     * @param kakaoCode
+     * @return
+     * @throws Exception
+     */
+    String loginKakao(String kakaoCode) throws Exception;
+
+    /**
+     * 로그아웃 for kakao
+     * @param kakaoCode
+     * @return
+     * @throws Exception
+     */
+    int logoutKakao(String kakaoCode) throws Exception;
 
     /**
      * 유저 정보 조회
@@ -46,4 +59,12 @@ public interface UserService {
      * @throws Exception
      */
     int deleteUserInfo(String userId) throws Exception;
+
+    /**
+     * 패스워드 찾기(임시 패스워드 발급)
+     * @param reqVO
+     * @return
+     * @throws Exception
+     */
+    int findPassword(UserFindReqVO reqVO) throws Exception;
 }

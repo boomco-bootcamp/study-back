@@ -96,4 +96,31 @@
           AND user_id = #{userId}
     </delete>
 
+    <!--    SNS 연동 유저 조회    -->
+    <select id="selectUserInfoForSNS" parameterType="UserReqVO" resultType="UserInfoVO">
+        SELECT
+            user_id
+            <if test="passwordYn != null and !passwordYn.equals('')">
+                , user_pswd
+            </if>
+            , user_nm
+            , user_eml
+            , user_tel
+            , user_sns_id
+            , user_sns_type
+            , sys_adm_yn
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+
+        FROM stdy_user_info_m
+
+        WHERE 1 = 1
+            AND user_sns_id = #{userSnsId}
+            AND user_sns_type = #{userSnsType}
+            AND del_yn = 'N'
+    </select>
+
 </mapper>

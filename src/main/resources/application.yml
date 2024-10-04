@@ -17,12 +17,32 @@ jwt:
   expiredTime : 86400000
 
   # USER
-  spring:
-    security:
-      user:
-        name: user
-        password: 123
-        roles: USER
+spring:
+  security:
+    user:
+      name: user
+      password: 123
+      roles: USER
+
+  #mail
+  mail:
+    from: boomcomailtest@gmail.com
+    host: smtp.gmail.com
+    port: 587
+    username: boomcomailtest@gmail.com
+    password: siecaephigqtmwfm
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: false
+        mine:
+          charset: UTF-8
+        transport:
+          protocol: smtp
 
 ---
 

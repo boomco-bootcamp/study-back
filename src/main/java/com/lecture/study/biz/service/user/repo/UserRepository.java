@@ -20,4 +20,10 @@ public interface UserRepository {
 
     // 회원 탈퇴
     int deleteUserInfo(@Param("userId") String userId);
+
+    /**************************************************
+     * SNS 로그인 관련 repo
+     **************************************************/
+    // SNS 연동 유저 조회
+    UserInfoVO selectUserInfoForSNS(UserReqVO reqVO);
 }
