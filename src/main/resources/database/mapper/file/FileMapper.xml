@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lecture.study.biz.service.file.repo.FileRepository">
+
+    <!--    파일 정보 조회    -->
+    <select id="selectFileInfo" parameterType="string" resultType="FileVO">
+        SELECT
+            file_id
+            , file_nm
+            , file_path
+            , file_ents
+            , file_ptrn
+            , file_size
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        FROM file_atch_m
+        WHERE 1 = 1 AND file_id = #{fileId}
+    </select>
+
+    <!--    파일 정보 등록    -->
+    <insert id="insertFileInfo" parameterType="FileSaveReqVO">
+        INSERT INTO file_atch_m
+        (
+            file_id
+            , file_nm
+            , file_path
+            , file_ents
+            , file_ptrn
+            , file_size
+            , del_yn
+            , rgsn_user_id
+            , rgsn_ts
+            , amnn_user_id
+            , amnn_ts
+        )
+        VALUES
+        (
+            #{fileId}
+            , #{fileNm}
+            , #{filePath}
+            , #{fileEnts}
+            , #{filePtrn}
+            , #{fileSize}
+            , 'N'
+            , #{rgsnUserId}
+            , CURRENT_TIMESTAMP
+            , #{amnnUserId}
+            , CURRENT_TIMESTAMP
+        )
+    </insert>
+
+</mapper>

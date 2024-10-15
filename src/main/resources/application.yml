@@ -1,6 +1,9 @@
 #Server Port
 server:
   port: 8080
+  front :
+    url : http://3.34.41.77:7601
+    #url : http://localhost:3000
 
 #log level
 logging:
@@ -16,7 +19,11 @@ jwt:
   # 밀리초 -> 24시간
   expiredTime : 86400000
 
-  # USER
+file:
+  path: /home/ubuntu/file/upload/
+  #path : C:/IdeaProjects/boomcoLabs/blog/file
+
+# USER
 spring:
   security:
     user:

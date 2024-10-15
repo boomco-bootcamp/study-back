@@ -1,7 +1,9 @@
 package com.lecture.study.biz.controller.file;
 
 import com.lecture.study.biz.service.file.FileService;
+import com.lecture.study.biz.service.file.vo.FileSaveReqVO;
 import com.lecture.study.biz.service.file.vo.FileVO;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +31,7 @@ public class FileController {
     @GetMapping("/detail")
     public ResponseEntity searchFileInfo(@RequestParam("id") String fileId) {
         try {
-            FileVO fileVO = new FileVO();    // fileService.searchFileInfo(fileId);
+            FileVO fileVO = fileService.searchFileInfo(fileId);
             return ResponseEntity.ok(fileVO);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -46,11 +48,25 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity uploadFile(@RequestParam("file") MultipartFile file, @AuthenticationPrincipal User user) {
         try {
-            int result = 0; //fileService.uploadFile(file, user);
-            return ResponseEntity.ok(result);
+            FileSaveReqVO reqVO = new FileSaveReqVO();
+            reqVO.setFile(file);
+            reqVO.setRgsnUserId(user.getUsername());
+            reqVO.setAmnnUserId(user.getUsername());
+            String fileId = fileService.uploadFile(reqVO);
+            return ResponseEntity.ok(fileId);
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    /**
+     * 파일 다운로드
+     * @param fileId
+     * @param response
+     */
+    @GetMapping("/download/{fileId}")
+    public void downloadFile(@PathVariable("fileId") String fileId, HttpServletResponse response) throws Exception {
+        fileService.downloadFile(fileId, response);
     }
 }

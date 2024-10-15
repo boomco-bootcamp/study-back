@@ -4,6 +4,6 @@
 
     <!--    // DB 연결 확인 샘플 Mapper-->
     <select id="dbConeectCheck" resultType="SampleVO">
-        SELECT 'success' AS test
+        SELECT 'success study' AS test
     </select>
 </mapper>

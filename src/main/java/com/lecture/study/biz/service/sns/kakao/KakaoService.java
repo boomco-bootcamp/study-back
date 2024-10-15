@@ -2,6 +2,8 @@ package com.lecture.study.biz.service.sns.kakao;
 
 import com.lecture.study.biz.service.sns.kakao.vo.KakaoUserInfoVO;
 
+import java.util.Map;
+
 public interface KakaoService {
 
     /**

@@ -2,10 +2,14 @@ package com.lecture.study.biz.service.file.vo;
 
 import lombok.Data;
 import org.apache.ibatis.type.Alias;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
-@Alias("FileVO")
-public class FileVO {
+@Alias("FileSaveReqVO")
+public class FileSaveReqVO {
+
+    // 다운로드 된 파일
+    private MultipartFile file;
 
     // 파일 ID
     private String fileId;
@@ -23,17 +27,11 @@ public class FileVO {
     private String filePtrn;
 
     // 파일 크기
-    private int fileSize;
+    private long fileSize;
 
-    // 등록 사용자 ID
+    // 등록 사용자
     private String rgsnUserId;
 
-    // 등록 일시
-    private String rgsnTs;
-
-    // 수정 사용자 ID
+    // 수정 사용자
     private String amnnUserId;
-
-    // 수정 일시
-    private String amnnTs;
 }
