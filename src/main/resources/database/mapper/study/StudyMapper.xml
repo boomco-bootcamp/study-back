@@ -96,6 +96,9 @@
                 <when test='orderType.equals("reply")'>
                     ORDER BY coalesce(D.stdy_comment_cnt, 0) DESC
                 </when>
+                <when test='orderType.equals("like")'>
+                    ORDER BY coalesce(E.stdy_like_cnt, 0) DESC
+                </when>
             </choose>
         </if>
 
