@@ -34,4 +34,17 @@ public class CategoryVO {
     // 수정 일시
     private Timestamp amnnTs;
 
+    /*
+     * 프론트 표시용
+     */
+    private String id;
+    private String title;
+
+    public String getId() {
+        return stdyCatId;
+    }
+
+    public String getTitle() {
+        return stdyCatNm;
+    }
 }

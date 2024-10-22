@@ -24,6 +24,9 @@ public class StudyReqVO extends PageVO {
     // 정렬 조건
     private String orderType;
 
+    // 스터디 상태
+    private String stdySt;
+
     // 좋아요 여부 검색 관련 로그인 UserId
     private String loginUserId;
 

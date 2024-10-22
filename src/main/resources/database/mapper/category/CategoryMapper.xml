@@ -41,6 +41,8 @@
         </if>
 
         WHERE 1 = 1 AND del_yn = 'N'
+
+        ORDER BY A.stdy_cat_nm
     </select>
 
     <!--    스터디 카테고리 작성 -->

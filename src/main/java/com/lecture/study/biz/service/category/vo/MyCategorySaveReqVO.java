@@ -4,6 +4,7 @@ import lombok.Data;
 import org.apache.ibatis.type.Alias;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @Alias("MyCategorySaveReqVO")
@@ -20,6 +21,9 @@ public class MyCategorySaveReqVO {
 
     // 등록 일시
     private Timestamp rgsnTs;
+
+    // 리스트 저장 시, 사용
+    private List<MyCategorySaveReqVO> list;
 
 
 }

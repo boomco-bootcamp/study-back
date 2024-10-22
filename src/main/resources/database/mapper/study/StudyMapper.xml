@@ -85,6 +85,10 @@
                 )
         </if>
 
+        <if test="stdySt != null and !stdySt.equals('')">
+            AND A.stdy_st = #{stdySt}
+        </if>
+
         <if test="orderType != null and !orderType.equals('')">
             <choose>
                 <when test='orderType.equals("desc")'>
